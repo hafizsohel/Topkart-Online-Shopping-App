@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "344912370679",
+    "project_id": "topkart-online-shopping-app",
+    "storage_bucket": "topkart-online-shopping-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344912370679:android:6bc618f2649beee4e36cf2",
+        "android_client_info": {
+          "package_name": "com.example.topkartonlineshoppingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344912370679-a3ubja66cgogdd4gtln35j000su72e8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCj-MuqbO4zBIgLMp31KciP7jYYJ2WZ4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "344912370679-a3ubja66cgogdd4gtln35j000su72e8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
