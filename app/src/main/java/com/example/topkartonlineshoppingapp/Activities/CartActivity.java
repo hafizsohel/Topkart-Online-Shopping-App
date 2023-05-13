@@ -94,51 +94,37 @@ public class CartActivity extends AppCompatActivity {
                     Toast.makeText(CartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 // Calculate total amount
                 double amount = 0;
-                double subTotals = 0;
+                double totalAmount = 0;
 
                 for (MyCartModel cartModel : cartModelList) {
-                    subTotals += cartModel.getTotalPrice();
+                    totalAmount += cartModel.getTotalPrice();
                     amount += cartModel.getTotalPrice();
                 }
 
                 // Assign totalAmount to subTotal
-                subTotals = amount;
+                totalAmount=amount;
 
-                // Pass subTotal amount and cart items to payment option activity
+                // Pass subTotal amount and cart items to payment activity
                 Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
-                intent.putExtra("subTotal", subTotals); // pass subTotals as subTotal extra
+                intent.putExtra("subTotal", totalAmount);
                 intent.putExtra("cartItems", (Serializable) cartModelList);
                 startActivity(intent);
 
 
-                // Clear cart after placing order
-                firestore.collection("AddToCart")
-                        .document(auth.getCurrentUser().getUid())
-                        .collection("MyCart")
-                        .get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-                                for (DocumentSnapshot document : documents) {
-                                    document.getReference().delete();
-                                }
-                                cartModelList.clear();
-                                cartAdapter.notifyDataSetChanged();
-                                calculateTotalAmount(cartModelList);
-                            }
-                        });
+
             }
         });
-
     }
     private void calculateTotalAmount(List<MyCartModel> cartModelList) {
         double totalAmount = 0.0;
+        double subTotal=0.0;
         for (MyCartModel myCartModel : cartModelList) {
             totalAmount += myCartModel.getTotalPrice();
         }
         overAllAmount.setText("Total Amount: "+totalAmount);
     }
+
 }

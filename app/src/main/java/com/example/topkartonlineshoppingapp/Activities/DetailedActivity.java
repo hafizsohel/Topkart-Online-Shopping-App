@@ -40,16 +40,12 @@ public class DetailedActivity extends AppCompatActivity {
     double totalPrice = 0.5;
     //New Products
     NewProductsModel newProductsModel = null;
-
-
     //Popular Products
     PopularProductsModel popularProductsModel = null;
-
     //Show ALL
     ShowAllModel showAllModel = null;
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +54,6 @@ public class DetailedActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.detailed_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -71,8 +66,6 @@ public class DetailedActivity extends AppCompatActivity {
         } else if (obj instanceof ShowAllModel) {
             showAllModel = (ShowAllModel) obj;
         }
-
-
         quantity = findViewById(R.id.quantity);
         detailedImg = findViewById(R.id.detailed_img);
         name = findViewById(R.id.detailed_name);
@@ -82,10 +75,8 @@ public class DetailedActivity extends AppCompatActivity {
 
         addToCart = findViewById(R.id.add_to_cart);
         buyNow = findViewById(R.id.buy_now);
-
         addItems = findViewById(R.id.add_item);
         removeItems = findViewById(R.id.remove_item);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +100,7 @@ public class DetailedActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DetailedActivity.this, AddressActivity.class);
 
-// Calculate subtotal and add to cart map
+                // Calculate subtotal and add to cart map
                 int qty = Integer.parseInt(quantity.getText().toString());
                 double pricePerUnit = Double.parseDouble(price.getText().toString());
                 double subtotal = qty * pricePerUnit;
@@ -135,8 +126,8 @@ public class DetailedActivity extends AppCompatActivity {
                     intent.putExtra("item", showAllModel);
                 }
                 intent.putExtra("cartMap", cartMap);
-                startActivity(intent);
 
+                startActivity(intent);
 
                 // Add the selected product to the user's cart in Firestore
                 if (auth.getCurrentUser() != null) {
@@ -158,38 +149,6 @@ public class DetailedActivity extends AppCompatActivity {
             }
 
         });
-
-
-        // Define a constant for the price increase amount
-        double PRICE_INCREASE_AMOUNT = 0.5;
-
-//price increase
- /*       price.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (totalQuantity < 10) {
-                    totalQuantity++;
-                    quantity.setText(String.valueOf(totalQuantity));
-
-                    // Increase the price rate
-                    if (newProductsModel != null) {
-                        double currentPrice = newProductsModel.getPrice();
-                        double newPrice = currentPrice + (PRICE_INCREASE_AMOUNT * totalQuantity);
-                        newProductsModel.setPrice((int) newPrice);
-                    }
-                    if (popularProductsModel != null) {
-                        double currentPrice = popularProductsModel.getPrice();
-                        double newPrice = currentPrice + (PRICE_INCREASE_AMOUNT * totalQuantity);
-                        popularProductsModel.setPrice((int) newPrice);
-                    }
-                    if (showAllModel != null) {
-                        double currentPrice = showAllModel.getPrice();
-                        double newPrice = currentPrice + (PRICE_INCREASE_AMOUNT * totalQuantity);
-                        showAllModel.setPrice((int) newPrice);
-                    }
-                }
-            }
-        });*/
 
 
         //Popular Products
@@ -239,10 +198,8 @@ public class DetailedActivity extends AppCompatActivity {
                         totalPrice = showAllModel.getPrice() * totalQuantity;
                     }
                 }
-
             }
         });
-
         removeItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,11 +230,12 @@ public class DetailedActivity extends AppCompatActivity {
         cartMap.put("totalPrice", totalPrice);
 
         // Calculate subtotal and add to cart map
+        String quantityString = quantity.getText().toString().trim();
         int qty = Integer.parseInt(quantity.getText().toString());
         double pricePerUnit = Double.parseDouble(price.getText().toString());
         double subtotal = qty * pricePerUnit;
         cartMap.put("subTotal", subtotal);
-        cartMap.put("totalPrice", subtotal + 30); // Add a fixed shipping cost of 30
+        cartMap.put("totalPrice", subtotal); // Add a fixed shipping cost of 30
         firestore.collection("AddToCart").document(auth.getCurrentUser().getUid())
                 .collection("MyCart").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override

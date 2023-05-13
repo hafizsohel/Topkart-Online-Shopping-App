@@ -36,7 +36,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_on_boarding);
 
         //hide toolbar
-        getSupportActionBar().hide();
+       // getSupportActionBar().hide();
 
         viewPager=findViewById(R.id.slider);
         dotsLayout=findViewById(R.id.dots);

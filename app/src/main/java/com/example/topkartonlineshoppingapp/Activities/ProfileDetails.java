@@ -51,36 +51,7 @@ public class ProfileDetails extends AppCompatActivity {
         logout = findViewById(R.id.logout_btn);
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-      /*  FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-        FirebaseUser user = auth.getCurrentUser();
-
-        if (user != null) {
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            String number=user.getPhoneNumber();
-            Uri profileImgUrl = user.getPhotoUrl();
-
-            showName.setText(name);
-            showEmail.setText(email);
-            showNumber.setText(number);
-
-            if (profileImgUrl != null) {
-                Glide.with(this)
-                        .load(profileImgUrl)
-                        .into(userImage);
-            }
-        }
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                auth.signOut();
-                startActivity(new Intent(ProfileDetails.this, LoginActivity.class));
-                finish();
-            }
-        });*/
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userID = user.getUid();
