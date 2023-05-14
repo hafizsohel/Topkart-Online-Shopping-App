@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.topkartonlineshoppingapp.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +45,7 @@ public class ProfileDetails extends AppCompatActivity {
 
         showName = findViewById(R.id.show_name);
         showEmail = findViewById(R.id.show_email);
-        showNumber=findViewById(R.id.show_number);
+        showNumber = findViewById(R.id.show_number);
 
         userImage = findViewById(R.id.profile_img1);
         //menuIcon = findViewById(R.id.menu_my_cart);
@@ -96,5 +98,16 @@ public class ProfileDetails extends AppCompatActivity {
                 finish();
             }
         });
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            String personName = acct.getDisplayName();
+            String personEmail = acct.getEmail();
+            String personId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+            showName.setText(personName);
+            showEmail.setText(personEmail);
+            showNumber.setText(personId);
+            Glide.with(this).load(String.valueOf(personPhoto)).into(userImage);
+        }
     }
 }

@@ -15,6 +15,9 @@
         android:theme="@style/Theme.TopkartOnlineShoppingApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.OrderList"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ProfileDetails"
             android:exported="false"
             android:label="@string/title_activity_profile_details"

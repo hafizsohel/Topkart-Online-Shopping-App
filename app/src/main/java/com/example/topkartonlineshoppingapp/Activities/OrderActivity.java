@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -37,6 +38,7 @@ public class OrderActivity extends AppCompatActivity {
      RecyclerView recyclerView;
      List<OrderModel> orderList;
     OrderAdapter orderAdapter;
+    Toolbar toolbar;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     TextView overAllAmount;
@@ -50,7 +52,9 @@ public class OrderActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         continueShoppingButton = findViewById(R.id.continue_shopping_button);
-        continueShoppingButton.setOnClickListener(new View.OnClickListener() {
+
+
+       continueShoppingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OrderActivity.this, MainActivity.class);
@@ -79,32 +83,11 @@ public class OrderActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    /*for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                                        OrderModel myOrderModel = doc.toObject(OrderModel.class);
-                                        orderList.add(myOrderModel);
-                                        orderAdapter.notifyDataSetChanged();*/
                                     Toast.makeText(OrderActivity.this, "Add To A Cart", Toast.LENGTH_SHORT).show();
 
                                 }
                             }
                         });
-             /*    BroadcastReceiver mMassageReceiver= new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        // Get the total amount of the order from the intent
-                        int totalBill = intent.getIntExtra("totalAmount", 0);
-                        // Display the total amount of the order in a TextView
-                        overAllAmount.setText("Total Amount : "+totalBill+"৳");
-                    }
-                };
-              firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid()).collection("AddToCart").document()
-                        .collection("MyOrder").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                Toast.makeText(OrderActivity.this, "Your Order Has Been Placed", Toast.LENGTH_SHORT).show();
-                            }
-                        });*/
-
 
 
             }

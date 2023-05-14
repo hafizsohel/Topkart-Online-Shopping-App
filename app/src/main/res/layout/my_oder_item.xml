@@ -7,9 +7,11 @@
     android:elevation="4dp"
     android:layout_margin="5dp">
 
+
+
     <LinearLayout
         android:padding="7dp"
-        android:background="#FB9FDE"
+        android:background="#8BF88F"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -29,17 +31,17 @@
                 android:layout_margin="4sp"
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
-                android:text="Current Date: "
+                android:text="Subtotal: "
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/current_date"
+                android:id="@+id/subtotal_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
-                android:text="Current Date: "
+                android:text="Subtotal: "
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -58,17 +60,17 @@
                 android:layout_margin="4sp"
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
-                android:text="Current Time: "
+                android:text="Cart Amount: "
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/current_time"
+                android:id="@+id/cart_amount_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
-                android:text="Current Time: "
+                android:text="Cart Amount: "
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -81,94 +83,44 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/shipping_c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2sp"
                 android:layout_margin="4sp"
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
-                android:text="Product Name: "
+                android:text="Shipping Cost: "
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/product_name"
+                android:id="@+id/shipping_cost_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
-                android:text="Current Date: "
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="2sp"
-                android:layout_margin="4sp"
-                android:layout_weight="1"
-                android:fontFamily="@font/amethysta"
-                android:text="Total Quantity "
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/total_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/amethysta"
-                android:text="Total Quantity"
+                android:text="Shipping Cost: "
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="2sp"
-                android:layout_margin="4sp"
-                android:layout_weight="1"
-                android:fontFamily="@font/amethysta"
-                android:text="Product Price: "
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/product_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/amethysta"
-                android:text="Current Date: "
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
         <View
-            android:id="@+id/divider7"
+            android:id="@+id/divider6"
             android:layout_width="430dp"
             android:layout_height="1dp"
             android:layout_marginTop="24dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/product_price" />
+            app:layout_constraintTop_toBottomOf="@+id/shipping_c" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -183,22 +135,21 @@
                 android:layout_margin="4sp"
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
-                android:text="Total Price "
+                android:text="Total Price: "
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/total_price"
+                android:id="@+id/total_price_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/amethysta"
-                android:text=" ৳"
+                android:text="Total Price: "
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -13,6 +13,11 @@
         android:icon="@drawable/shopping_cart_24" />
 
     <item
+        android:id="@+id/order_list"
+        android:title="Order List"
+        android:icon="@drawable/checklist_24" />
+
+    <item
         android:id="@+id/profile"
         android:title="Profile"
         android:icon="@drawable/person_pin_24"

@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(myIntent);
                         break;
 
-                    case R.id.home:
-                        Intent hIntent= new Intent(MainActivity.this, MainActivity.class);
-                        startActivity(hIntent);
+                    case R.id.order_list:
+                        Intent oIntent= new Intent(MainActivity.this, OrderList.class);
+                        startActivity(oIntent);
                         break;
 
 

@@ -2,8 +2,10 @@ package com.example.topkartonlineshoppingapp.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,11 +37,14 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 
 public class RegistrationActivity extends AppCompatActivity {
+    private static final String TAG = "RegistrationActivity";
 
     EditText name, email, password;
     TextView textView;
@@ -50,6 +56,8 @@ public class RegistrationActivity extends AppCompatActivity {
     String userID;
     private GoogleSignInClient client;
     private static int RC_SIGN_IN=100;
+    FirebaseUser user;
+    FirebaseDatabase db;
 
 
 
@@ -67,30 +75,23 @@ public class RegistrationActivity extends AppCompatActivity {
             startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
             finish();
         }
-
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         textView = findViewById(R.id.signInWithGoogle);
-        /*GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .setAccountChooserEnabled(true) // enable account chooser
-                .build();*/
 
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
         client = GoogleSignIn.getClient(this, options);
-
-
 
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = client.getSignInIntent();
-                startActivityForResult(i, 1234);
+                startActivityForResult(i, RC_SIGN_IN);
 
             }
         });
@@ -106,39 +107,6 @@ public class RegistrationActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1234) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                FirebaseAuth.getInstance().signInWithCredential(credential)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
-                                    FirebaseUser user = auth.getCurrentUser();
-                                    // Show a popup with the user's email address
-                                    String email = user.getEmail();
-                                    Toast.makeText(RegistrationActivity.this, "Logged in as: " + email, Toast.LENGTH_SHORT).show();
-                                    Intent intent= new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    
-                                }else {
-                                    Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-            } catch (ApiException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
 
     }
 
@@ -201,7 +169,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     }
                 });
-        //
     }
 
     public void signin(View view) {
@@ -219,5 +186,59 @@ public class RegistrationActivity extends AppCompatActivity {
                         finish();
                     }
                 });*/
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                FirebaseAuth.getInstance().signInWithCredential(credential)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = auth.getCurrentUser();
+                                    // Show a popup with the user's email address
+                                    String email = user.getEmail();
+                                    Toast.makeText(RegistrationActivity.this, "Logged in as: " + email, Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
+
+                                } else {
+                                    Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                handleSignInResult(task);
+
+
+            } catch (ApiException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+
+
+        private void handleSignInResult(Task<GoogleSignInAccount>completeTask) {
+        try {
+            GoogleSignInAccount account=completeTask.getResult(ApiException.class);
+            GoogleSignInAccount acct=GoogleSignIn.getLastSignedInAccount(this);
+            if (acct!=null){
+                String personName=acct.getDisplayName();
+                String personGivenName=acct.getGivenName();
+                String personEmail=acct.getEmail();
+                String personId=acct.getId();
+                Uri personPhoto=acct.getPhotoUrl();
+
+            }
+        }catch (ApiException e){
+
+        }
     }
 }

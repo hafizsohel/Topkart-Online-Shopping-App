@@ -113,8 +113,6 @@ public class CartActivity extends AppCompatActivity {
                 intent.putExtra("cartItems", (Serializable) cartModelList);
                 startActivity(intent);
 
-
-
             }
         });
     }
