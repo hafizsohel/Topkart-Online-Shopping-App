@@ -1,28 +1,42 @@
 package com.example.topkartonlineshoppingapp.models;
 
-import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
+@Entity(tableName = "cart_items")
 public class MyCartModel implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
     String currentDate;
     String currentTime;
     String productName;
     String productPrice;
-    int totalPrice;
+    double totalPrice;
     String totalQuantity;
 
     public MyCartModel() {
     }
 
-    public MyCartModel( String currentDate, String currentTime, String productName, String productPrice, int totalPrice, String totalQuantity) {
+    public MyCartModel(int id, String currentDate, String currentTime, String productName, String productPrice, int totalPrice, String totalQuantity) {
+        this.id = id;
         this.currentDate = currentDate;
         this.currentTime = currentTime;
         this.productName = productName;
         this.productPrice = productPrice;
         this.totalPrice = totalPrice;
         this.totalQuantity = totalQuantity;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCurrentDate() {
@@ -57,11 +71,11 @@ public class MyCartModel implements Serializable {
         this.productPrice = productPrice;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

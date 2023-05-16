@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.topkartonlineshoppingapp.Adapters.NewProductsAdapter;
+import com.example.topkartonlineshoppingapp.Data.Databases.CartDatabase;
 import com.example.topkartonlineshoppingapp.R;
+import com.example.topkartonlineshoppingapp.models.MyCartModel;
 import com.example.topkartonlineshoppingapp.models.NewProductsModel;
 import com.example.topkartonlineshoppingapp.models.PopularProductsModel;
 import com.example.topkartonlineshoppingapp.models.ShowAllModel;
@@ -46,6 +48,7 @@ public class DetailedActivity extends AppCompatActivity {
     ShowAllModel showAllModel = null;
     FirebaseAuth auth;
     private FirebaseFirestore firestore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,7 +215,7 @@ public class DetailedActivity extends AppCompatActivity {
         });
     }
 
-    private void addToCart() {
+    /*private void addToCart() {
         String saveCurrentTime, saveCurrentDate;
         Calendar calForDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("MM/dd/yyyy");
@@ -244,5 +247,33 @@ public class DetailedActivity extends AppCompatActivity {
                         finish();
                     }
                 });
+    }*/
+
+
+    private void addToCart() {
+        String saveCurrentTime, saveCurrentDate;
+        Calendar calForDate = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("MM/dd/yyyy");
+        saveCurrentDate = currentDate.format(calForDate.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+        saveCurrentTime = currentTime.format(calForDate.getTime());
+
+        // Create a MyCartModel object and set its fields
+        MyCartModel cartItem = new MyCartModel();
+        cartItem.setProductName(name.getText().toString());
+        cartItem.setProductPrice(price.getText().toString());
+        cartItem.setCurrentTime(saveCurrentTime);
+        cartItem.setCurrentDate(saveCurrentDate);
+        cartItem.setTotalQuantity(String.valueOf(Integer.parseInt(quantity.getText().toString())));
+        cartItem.setTotalPrice(totalPrice);
+       // cartItem.setSubTotal(Integer.parseInt(quantity.getText().toString()) * Double.parseDouble(price.getText().toString()));
+
+        // Insert the cart item into the Room database
+        CartDatabase.getInstance(this).myCartDao().insert(cartItem);
+
+        Toast.makeText(DetailedActivity.this, "Added To A Cart", Toast.LENGTH_SHORT).show();
+        finish();
     }
+
 }

@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.topkartonlineshoppingapp.Adapters.AddressAdapter;
 import com.example.topkartonlineshoppingapp.R;
 import com.example.topkartonlineshoppingapp.models.AddressModel;
-import com.example.topkartonlineshoppingapp.models.MyCartModel;
+
 import com.example.topkartonlineshoppingapp.models.NewProductsModel;
 import com.example.topkartonlineshoppingapp.models.PopularProductsModel;
 import com.example.topkartonlineshoppingapp.models.ShowAllModel;

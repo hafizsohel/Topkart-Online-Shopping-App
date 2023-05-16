@@ -1,10 +1,4 @@
-package com.example.topkartonlineshoppingapp.Activities;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.topkartonlineshoppingapp.Activities;// imports...
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,44 +6,39 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.topkartonlineshoppingapp.Adapters.MyCartAdapter;
+import com.example.topkartonlineshoppingapp.Data.Databases.CartDatabase;
+import com.example.topkartonlineshoppingapp.Data.Databases.MyCartDao;
 import com.example.topkartonlineshoppingapp.R;
 import com.example.topkartonlineshoppingapp.models.MyCartModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CartActivity extends AppCompatActivity {
+    private static final String TAG = "CartActivity";
 
-
-    TextView overAllAmount;
-    Toolbar toolbar;
-    RecyclerView recyclerView;
-    List<MyCartModel> cartModelList;
-    MyCartAdapter cartAdapter;
-    private FirebaseAuth auth;
-    private FirebaseFirestore firestore;
+    private TextView overAllAmount;
+    private Toolbar toolbar;
+    private RecyclerView recyclerView;
+    private List<MyCartModel> cartModelList;
+    private MyCartAdapter cartAdapter;
     private Button buyNow;
+    private ExecutorService executorService;
+    private MyCartModel myCartModel;
+    private boolean isOrderPlaced = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
-        auth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
-
-        buyNow = findViewById(R.id.buy_now);
 
         toolbar = findViewById(R.id.my_cart_toolbar);
         setSupportActionBar(toolbar);
@@ -69,60 +58,71 @@ public class CartActivity extends AppCompatActivity {
         cartAdapter = new MyCartAdapter(this, cartModelList);
         recyclerView.setAdapter(cartAdapter);
 
+            // Load cart items from the database only for the first creation of the activity
+            loadCartItemsFromDatabase();
 
-        firestore.collection("AddToCart").document(auth.getCurrentUser().getUid())
-                .collection("MyCart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                                MyCartModel myCartModel = doc.toObject(MyCartModel.class);
-                                cartModelList.add(myCartModel);
-                                cartAdapter.notifyDataSetChanged();
-                            }
-                            calculateTotalAmount(cartModelList);
-
-                        }
-                    }
-                });
-
+        buyNow = findViewById(R.id.buy_now_cart);
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (cartModelList.isEmpty()) {
                     Toast.makeText(CartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 // Calculate total amount
-                double amount = 0;
                 double totalAmount = 0;
-
                 for (MyCartModel cartModel : cartModelList) {
                     totalAmount += cartModel.getTotalPrice();
-                    amount += cartModel.getTotalPrice();
                 }
-
-                // Assign totalAmount to subTotal
-                totalAmount=amount;
-
-                // Pass subTotal amount and cart items to payment activity
+                // Save cart items to local database
+                // Pass subTotal amount and cart items to the payment activity
                 Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
                 intent.putExtra("subTotal", totalAmount);
                 intent.putExtra("cartItems", (Serializable) cartModelList);
                 startActivity(intent);
-
+                finish(); // Add this line to finish the current activity
             }
         });
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                MyCartDao myCartDao = CartDatabase.getInstance(CartActivity.this).myCartDao();
+                for (MyCartModel cartModel : cartModelList) {
+                    MyCartModel myCartModel = new MyCartModel();
+                    myCartDao.insert(myCartModel);
+                }
+            }
+        });
+
     }
+
+    private void loadCartItemsFromDatabase() {
+        executorService = Executors.newSingleThreadExecutor();
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    MyCartDao myCartDao = CartDatabase.getInstance(CartActivity.this).myCartDao();
+                    List<MyCartModel> items = myCartDao.getAllCartItems();
+                    if (items != null && !items.isEmpty()) {
+                        cartModelList.addAll(items);
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            cartAdapter.setCartItems(cartModelList);
+                            calculateTotalAmount(cartModelList);
+                        }
+                    });
+                }
+            });
+        }
+
     private void calculateTotalAmount(List<MyCartModel> cartModelList) {
         double totalAmount = 0.0;
-        double subTotal=0.0;
         for (MyCartModel myCartModel : cartModelList) {
             totalAmount += myCartModel.getTotalPrice();
         }
-        overAllAmount.setText("Total Amount: "+totalAmount);
+        overAllAmount.setText("Total Amount: " + totalAmount);
     }
 
 }

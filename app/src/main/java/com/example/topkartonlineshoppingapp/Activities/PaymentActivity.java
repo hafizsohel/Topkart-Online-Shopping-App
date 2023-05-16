@@ -14,9 +14,10 @@ import android.widget.Toast;
 
 import com.example.topkartonlineshoppingapp.Adapters.MyCartAdapter;
 import com.example.topkartonlineshoppingapp.Adapters.OrderAdapter;
+import com.example.topkartonlineshoppingapp.Data.Databases.CartDatabase;
+import com.example.topkartonlineshoppingapp.Data.Databases.MyCartDao;
 import com.example.topkartonlineshoppingapp.R;
 import com.example.topkartonlineshoppingapp.models.MyCartModel;
-import com.example.topkartonlineshoppingapp.models.OrderModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -26,10 +27,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /*public class PaymentActivity extends AppCompatActivity {
     private static final String TAG = "PaymentActivity";
@@ -286,37 +287,6 @@ public class PaymentActivity extends AppCompatActivity {
 
 }*/
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.topkartonlineshoppingapp.Adapters.MyCartAdapter;
-import com.example.topkartonlineshoppingapp.Adapters.OrderAdapter;
-import com.example.topkartonlineshoppingapp.R;
-import com.example.topkartonlineshoppingapp.models.MyCartModel;
-import com.example.topkartonlineshoppingapp.models.OrderModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class PaymentActivity extends AppCompatActivity {
     private static final String TAG = "PaymentActivity";
 
@@ -329,6 +299,8 @@ public class PaymentActivity extends AppCompatActivity {
     FirebaseFirestore firestore;
     MyCartAdapter adapter;
     List<MyCartModel> cartModelList;
+
+    private ExecutorService executorService;
 
     private HashMap<String, Object> cartMap = new HashMap<>();
 
@@ -393,9 +365,18 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 paymentMethod();
+                executorService = Executors.newSingleThreadExecutor();
+                // Clear the cart after placing the order
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        MyCartDao myCartDao = CartDatabase.getInstance(PaymentActivity.this).myCartDao();
+                        myCartDao.deleteAllCartItems();
+                    }
+                });
 
                 // Clear cart after placing order
-                firestore.collection("AddToCart")
+                /*firestore.collection("AddToCart")
                         .document(auth.getCurrentUser().getUid())
                         .collection("MyCart")
                         .get()
@@ -409,7 +390,8 @@ public class PaymentActivity extends AppCompatActivity {
                                // cartModelList.clear();
 
                             }
-                        });
+                        });*/
+
             }
         });
 

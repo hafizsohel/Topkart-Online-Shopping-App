@@ -97,5 +97,6 @@ FirebaseAuth auth;
             }
         });
 
+        return;
     }
 }

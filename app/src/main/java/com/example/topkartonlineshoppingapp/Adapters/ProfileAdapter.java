@@ -13,7 +13,6 @@ import androidx.constraintlayout.helper.widget.Layer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.topkartonlineshoppingapp.R;
-import com.example.topkartonlineshoppingapp.models.MyCartModel;
 import com.example.topkartonlineshoppingapp.models.ProfileModel;
 import com.squareup.picasso.Picasso;
 

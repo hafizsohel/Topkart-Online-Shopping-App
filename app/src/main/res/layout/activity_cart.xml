@@ -47,13 +47,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/total"
-        app:layout_constraintBottom_toTopOf="@+id/buy_now"
-        tools:listitem="@layout/my_cart_item"
-        />
-
+        app:layout_constraintBottom_toTopOf="@+id/buy_now_cart"
+        tools:listitem="@layout/my_cart_item" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buy_now"
+        android:id="@+id/buy_now_cart"
         android:layout_width="284dp"
         android:layout_height="50dp"
         android:layout_margin="10dp"
