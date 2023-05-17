@@ -215,40 +215,6 @@ public class DetailedActivity extends AppCompatActivity {
         });
     }
 
-    /*private void addToCart() {
-        String saveCurrentTime, saveCurrentDate;
-        Calendar calForDate = Calendar.getInstance();
-        SimpleDateFormat currentDate = new SimpleDateFormat("MM/dd/yyyy");
-        saveCurrentDate = currentDate.format(calForDate.getTime());
-
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
-        saveCurrentTime = currentTime.format(calForDate.getTime());
-
-        final HashMap<String, Object> cartMap = new HashMap<>();
-        cartMap.put("productName", name.getText().toString());
-        cartMap.put("productPrice", price.getText().toString());
-        cartMap.put("currentTime", saveCurrentTime);
-        cartMap.put("currentDate", saveCurrentDate);
-        cartMap.put("totalQuantity", quantity.getText().toString());
-        cartMap.put("totalPrice", totalPrice);
-
-        // Calculate subtotal and add to cart map
-        String quantityString = quantity.getText().toString().trim();
-        int qty = Integer.parseInt(quantity.getText().toString());
-        double pricePerUnit = Double.parseDouble(price.getText().toString());
-        double subtotal = qty * pricePerUnit;
-        cartMap.put("subTotal", subtotal);
-        cartMap.put("totalPrice", subtotal); // Add a fixed shipping cost of 30
-        firestore.collection("AddToCart").document(auth.getCurrentUser().getUid())
-                .collection("MyCart").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Toast.makeText(DetailedActivity.this, "Added To A Cart", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                });
-    }*/
-
 
     private void addToCart() {
         String saveCurrentTime, saveCurrentDate;

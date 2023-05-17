@@ -323,7 +323,7 @@ public class PaymentActivity extends AppCompatActivity {
         // Retrieve the passed values
         double totalAmount = getIntent().getDoubleExtra("subTotal", 0.0);
         List<MyCartModel> cartModelList = (List<MyCartModel>) getIntent().getSerializableExtra("cartItems");
-        Log.d(TAG, "onClick: cartModelList"+totalAmount);
+      //  Log.d(TAG, "onClick: cartModelList"+totalAmount);
 
 
 
@@ -375,27 +375,8 @@ public class PaymentActivity extends AppCompatActivity {
                     }
                 });
 
-                // Clear cart after placing order
-                /*firestore.collection("AddToCart")
-                        .document(auth.getCurrentUser().getUid())
-                        .collection("MyCart")
-                        .get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
-                                for (DocumentSnapshot document : documents) {
-                                    document.getReference().delete();
-                                }
-                               // cartModelList.clear();
-
-                            }
-                        });*/
-
             }
         });
-
-
 
     }
 

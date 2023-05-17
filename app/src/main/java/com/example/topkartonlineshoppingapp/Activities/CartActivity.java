@@ -6,15 +6,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.topkartonlineshoppingapp.Adapters.MyCartAdapter;
 import com.example.topkartonlineshoppingapp.Data.Databases.CartDatabase;
 import com.example.topkartonlineshoppingapp.Data.Databases.MyCartDao;
 import com.example.topkartonlineshoppingapp.R;
 import com.example.topkartonlineshoppingapp.models.MyCartModel;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +61,8 @@ public class CartActivity extends AppCompatActivity {
         cartAdapter = new MyCartAdapter(this, cartModelList);
         recyclerView.setAdapter(cartAdapter);
 
-            // Load cart items from the database only for the first creation of the activity
-            loadCartItemsFromDatabase();
+        // Load cart items from the database only for the first creation of the activity
+        loadCartItemsFromDatabase();
 
         buyNow = findViewById(R.id.buy_now_cart);
         buyNow.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +77,6 @@ public class CartActivity extends AppCompatActivity {
                 for (MyCartModel cartModel : cartModelList) {
                     totalAmount += cartModel.getTotalPrice();
                 }
-                // Save cart items to local database
                 // Pass subTotal amount and cart items to the payment activity
                 Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
                 intent.putExtra("subTotal", totalAmount);
@@ -83,39 +85,28 @@ public class CartActivity extends AppCompatActivity {
                 finish(); // Add this line to finish the current activity
             }
         });
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                MyCartDao myCartDao = CartDatabase.getInstance(CartActivity.this).myCartDao();
-                for (MyCartModel cartModel : cartModelList) {
-                    MyCartModel myCartModel = new MyCartModel();
-                    myCartDao.insert(myCartModel);
-                }
-            }
-        });
-
     }
 
     private void loadCartItemsFromDatabase() {
         executorService = Executors.newSingleThreadExecutor();
-            executorService.execute(new Runnable() {
-                @Override
-                public void run() {
-                    MyCartDao myCartDao = CartDatabase.getInstance(CartActivity.this).myCartDao();
-                    List<MyCartModel> items = myCartDao.getAllCartItems();
-                    if (items != null && !items.isEmpty()) {
-                        cartModelList.addAll(items);
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            cartAdapter.setCartItems(cartModelList);
-                            calculateTotalAmount(cartModelList);
-                        }
-                    });
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                MyCartDao myCartDao = CartDatabase.getInstance(CartActivity.this).myCartDao();
+                List<MyCartModel> items = myCartDao.getAllCartItems();
+                if (items != null && !items.isEmpty()) {
+                    cartModelList.addAll(items);
                 }
-            });
-        }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        cartAdapter.setCartItems(cartModelList);
+                        calculateTotalAmount(cartModelList);
+                    }
+                });
+            }
+        });
+    }
 
     private void calculateTotalAmount(List<MyCartModel> cartModelList) {
         double totalAmount = 0.0;

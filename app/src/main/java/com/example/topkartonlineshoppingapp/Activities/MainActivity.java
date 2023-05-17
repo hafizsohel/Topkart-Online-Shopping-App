@@ -156,6 +156,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.menu_my_cart) {
 
             startActivity(new Intent(MainActivity.this, CartActivity.class));
+        } else if (id==R.id.order_list){
+            startActivity(new Intent(this,OrderList.class));
+        }
+        else if (id==R.id.home){
+            startActivity(new Intent(this, MainActivity.class));
         }
         return true;
     }
