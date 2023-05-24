@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
        // getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_menu_24);
         bottom_nav=findViewById(R.id.bottom_nav);
 
@@ -111,13 +111,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.home_container, homeFragment);
         transaction.commit();
     }
-
+/*
     @Override
     protected void onStart() {
         super.onStart();
         user=FirebaseAuth.getInstance().getCurrentUser();
     }
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -140,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(MainActivity.this, "Profile Clicked", Toast.LENGTH_SHORT).show();
             }
         });
-
-
         return true;
     }
 
@@ -152,9 +150,7 @@ public class MainActivity extends AppCompatActivity {
             auth.signOut();
             startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
             finish();
-
         } else if (id == R.id.menu_my_cart) {
-
             startActivity(new Intent(MainActivity.this, CartActivity.class));
         } else if (id==R.id.order_list){
             startActivity(new Intent(this,OrderList.class));
@@ -164,5 +160,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
-    }
+}
