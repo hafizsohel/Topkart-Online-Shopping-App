@@ -1,5 +1,6 @@
 package com.example.topkartonlineshoppingapp.Activities;// imports...
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,6 +48,11 @@ public class CartActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.my_cart_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Activity activity = this;
+        if (activity != null) {
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.pink));
+        }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

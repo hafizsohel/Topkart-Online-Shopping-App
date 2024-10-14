@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -78,14 +79,17 @@ public class HomeFragment extends Fragment {
     private ImageSliderAdapter slideAdapter;
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        if (getActivity() != null) {
+            getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.pink));
+        }
 
         progressDialog = new ProgressDialog(getActivity());
         catRecyclerView = root.findViewById(R.id.rec_category);
@@ -198,6 +202,8 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
+
+
         //Popular Products
         popularRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         popularProductsModelList = new ArrayList<>();

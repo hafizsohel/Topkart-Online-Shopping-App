@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class PopularProductsModel implements Serializable {
     String description;
-
     String name;
     String rating;
     int price;

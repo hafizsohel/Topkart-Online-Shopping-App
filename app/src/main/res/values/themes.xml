@@ -20,6 +20,5 @@
     </style>
 
     <style name="Theme.TopkartOnlineShoppingApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="Theme.TopkartOnlineShoppingApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

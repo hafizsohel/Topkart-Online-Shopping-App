@@ -1,5 +1,6 @@
 package com.example.topkartonlineshoppingapp.Activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.topkartonlineshoppingapp.Adapters.OrderAdapter;
@@ -38,6 +40,11 @@ public class OrderList extends AppCompatActivity {
         orderList = new ArrayList<>();
         orderAdapter = new OrderAdapter(OrderList.this, orderList);
         orderRecyclerView.setAdapter(orderAdapter);
+
+        Activity activity = this;
+        if (activity != null) {
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.pink));
+        }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

@@ -65,7 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        //getSupportActionBar().hide();
+       // getSupportActionBar().hide();
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
@@ -174,18 +174,6 @@ public class RegistrationActivity extends AppCompatActivity {
     public void signin(View view) {
        startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
         finish();
-
-        // Sign out from Google
-      /* client.signOut()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // Redirect to login activity
-                        Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });*/
     }
 
     @Override
@@ -221,10 +209,6 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
         private void handleSignInResult(Task<GoogleSignInAccount>completeTask) {
         try {
             GoogleSignInAccount account=completeTask.getResult(ApiException.class);

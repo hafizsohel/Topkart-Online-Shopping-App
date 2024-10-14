@@ -43,10 +43,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Enter the Password!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (userPassword.length()<6){
-            Toast.makeText(this, "Password too short!, Enter minimum 4 characters!", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         auth.signInWithEmailAndPassword(userEmail, userPassword)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
@@ -58,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     finish();
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "Error:"+task.getException(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Username or Password incorrect", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

@@ -35,6 +35,7 @@
         android:layout_marginTop="30dp"
         android:elevation="3dp"
         android:hint="Email"
+        android:textColor="@color/black"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +53,7 @@
         android:drawablePadding="10dp"
         android:elevation="3dp"
         android:hint="Password"
+        android:textColor="@color/black"
         android:inputType="numberPassword"
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,18 +66,18 @@
         android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/pink"
+        android:background="@drawable/rectangle_google"
         android:onClick="signIn"
         android:padding="15dp"
-        android:text="Sign In"
+        android:text="SIGN IN"
+        android:textColor="@color/pink"
         android:textAllCaps="false"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_bias="0.1"
         app:layout_constraintWidth_percent="0.4" />
 
     <TextView
@@ -83,20 +85,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Don't Have An Account?"
-        android:textSize="17sp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/password"
         app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="signUp"
         android:text="Sign Up"
-        android:textColor="@color/blue"
+        android:textColor="@color/pink"
         android:textSize="19sp"
         android:textStyle="bold"
         android:backgroundTint="@color/pink"

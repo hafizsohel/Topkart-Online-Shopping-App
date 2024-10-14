@@ -3,9 +3,11 @@ package com.example.topkartonlineshoppingapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -39,6 +41,11 @@ public class ShowAllActivity extends AppCompatActivity {
         toolbar=findViewById(R.id.show_all_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Activity activity = this;
+        if (activity != null) {
+            activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.pink));
+        }
 
         String type = getIntent().getStringExtra("type");
 

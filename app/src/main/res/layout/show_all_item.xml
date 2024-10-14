@@ -14,8 +14,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="15dp"
-            android:orientation="vertical"
-            android:background="#EDEDED">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/item_image"

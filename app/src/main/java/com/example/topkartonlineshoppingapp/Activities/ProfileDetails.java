@@ -59,7 +59,6 @@ public class ProfileDetails extends AppCompatActivity {
         String userID = user.getUid();
 
         //Show Profile Data from firebase
-
         DocumentReference userRef = db.collection("Users").document(userID);
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
